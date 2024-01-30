@@ -1,0 +1,55 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Create user hillel
+    user:
+      name: hillel
+      password: "{ { pwd | password_hash('sha512') } }"
+    vars:
+      pwd: "Pwspasswordpws"
+
+  - name: Install and configure nginx for static website hosting
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+
+  - name: Add user to group sudo
+    user:
+      name: "{{ user }}"
+      groups: sudo
+      state: present
+
+  - name: Remove default nginx configuration
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+
+  - name: Add nginx configuration
+    copy:
+      src: /etc/nginx/sites-available/static-site-config
+      dest: /etc/nginx/sites-available/
+      owner: "{{ user }}"
+      group: sudo
+      mode: '0644'
+
+  - name: Enable website configuration
+    file:
+      src: /etc/nginx/sites-available/static-site-config
+      dest: /etc/nginx/sites-enabled/static-site-config
+      state: link
+
+  - name: Ensure nginx is running
+    systemd:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: install apps
+    apt:
+      pkg: ['git', 'zip']
+      state: latest 
+
+  vars:
+    user: "hillel"
