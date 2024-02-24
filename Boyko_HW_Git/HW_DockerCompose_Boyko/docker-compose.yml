@@ -1,0 +1,7 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    build: /home/istudent/git/Boyko_HW_Git/HW_DockerCompose_Boyko
+    restart: always
