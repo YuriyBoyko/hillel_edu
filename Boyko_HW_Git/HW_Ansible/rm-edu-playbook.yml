@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Remove nginx
+    package:
+      name: nginx
+      autoremove: yes
+      purge: yes
+      state: absent
+  - name: Remove git
+    package:
+      name: git
+      autoremove: yes
+      purge: yes
+      state: absent
+  - name: Remove zip
+    package:
+      name: zip
+      state: absent
+  - name: Remove user hillel
+    user:
+      name: hillel
+      state: absent
+      remove: yes
