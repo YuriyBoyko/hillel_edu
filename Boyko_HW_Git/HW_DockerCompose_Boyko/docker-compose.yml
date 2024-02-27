@@ -1,7 +1,8 @@
+version: '3.8'
 services:
-  nginx:
-    image: nginx:latest
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
-    build: /home/istudent/git/Boyko_HW_Git/HW_DockerCompose_Boyko
-    restart: always
+      - 80:80
