@@ -1,8 +1,9 @@
 version: '3.8'
 services:
   application:
+    image: education_nginx_app:latest
     build:
-      context: .
+      context: ../HW_Docker_Boyko
       dockerfile: Dockerfile
     ports:
       - 80:80
