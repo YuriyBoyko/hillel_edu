@@ -2,6 +2,7 @@ version: '3.8'
 services:
   application:
     image: education_nginx_app:latest
+    container_name: my-docker-compose-app
     build:
       context: ../HW_Docker_Boyko
       dockerfile: Dockerfile
