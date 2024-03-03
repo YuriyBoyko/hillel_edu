@@ -16,20 +16,13 @@ pipeline {
 
                     withCredentials([usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
                     {
-                        sh "docker build -t YuriyBoyko/jenkins-app:${dockerImageTag} HW_Docker_Boyko"
+                        sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh "docker push YuriyBoyko/jenkins-app:${dockerImageTag}"
+                        sh "docker push flyvisit/hillel:${dockerImageTag}"
                     }
                 }
             }  
     
-        }
-        stage('Ignored') 
-        {
-          withChecks('Integration Tests') 
-            {
-            junit skipPublishingChecks: true, testResults: 'test-results.xml'
-            }
         }
     }
         
