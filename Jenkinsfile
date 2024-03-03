@@ -24,7 +24,13 @@ pipeline {
             }  
     
         }
-        junit skipPublishingChecks: true, testResults: 'test-results.xml'
+        stage('Ignored') 
+        {
+          withChecks('Integration Tests') 
+            {
+            junit skipPublishingChecks: true, testResults: 'test-results.xml'
+            }
+        }
     }
         
 }
