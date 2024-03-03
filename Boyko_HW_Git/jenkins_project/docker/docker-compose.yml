@@ -1,0 +1,20 @@
+version: '3'
+services:
+  jenkins:
+    image: "jenkins/jenkins:lts"
+    container_name: "jenkins_edu"
+    volumes:
+      - ./jenkins_home/:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /usr/bin/docker:/usr/bin/docker
+    network_mode: host
+
+  worker-node:
+    image: "ubuntu:latest"
+    container_name: "node_education"
+    volumes:
+      - ./worker_vol:/home/jenkins
+      - ./worker_vol/worker_node_key.pub:/home/jenkins/.ssh/authorized_keys
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      bash -c "apt-get update && apt-get install -y openjdk-17-jdk git curl docker.io openssh-server && mkdir -p /var/run/sshd && /usr/sbin/sshd -D"
