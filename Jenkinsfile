@@ -14,7 +14,7 @@ pipeline {
                 script {
                     def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
 
-                    withCredentials([ credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
+                    withCredentials([usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
                     {
                         sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
