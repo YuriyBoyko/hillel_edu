@@ -7,12 +7,6 @@ pipeline {
         pollSCM('*/5 * * * *')
     }
 
-    post {
-        always {
-            junit skipPublishingChecks: true
-        }
-    }
-
     stages {
         stage('Build and Push Docker Image') 
         {
@@ -29,7 +23,13 @@ pipeline {
                 }
             }  
     
-        }        
+        }
+        post 
+        {
+        always {
+            junit skipPublishingChecks: true, testResults: 'test-results.xml'
+              }    
+        }   
     }
         
 }
