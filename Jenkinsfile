@@ -1,4 +1,5 @@
-pipeline {
+pipeline 
+{
     agent {
         label 'great_node'
     }
@@ -7,24 +8,29 @@ pipeline {
         pollSCM('*/5 * * * *')
     }
 
-    stages {
+    stages 
+    {
         stage('Build and Push Docker Image') 
         {
-            steps {
-                script {
+            steps 
+            {
+                script 
+                {
                     def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
 
-                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
                     {
-                        sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh "docker push flyvisit/hillel:${dockerImageTag}"
+                        {
+                          sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
+                          sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                          sh "docker push flyvisit/hillel:${dockerImageTag}"
+                        }
                     }
-                }
-            }  
+                }  
     
     
+            }
         }
-    }
         
-}
+    }
+}    
