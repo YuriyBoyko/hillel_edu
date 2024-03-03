@@ -59,3 +59,4 @@ def updateGitHubCommitStatus(String status) {
 
     def response = sh(script: curlCommand, returnStdout: true).trim()
     echo "Response: ${response}"
+}
