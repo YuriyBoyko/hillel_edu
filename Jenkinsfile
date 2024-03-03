@@ -7,27 +7,29 @@ pipeline {
         pollSCM('*/5 * * * *')
     }
 
-    stages {
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
-
-                    withCredentials([usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker build -t YuriyBoyko/jenkins-app:${dockerImageTag} HW_Docker_Boyko"
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh "docker push YuriyBoyko/jenkins-app:${dockerImageTag}"
-                    }
-                }
-            }
     post {
         always {
             junit skipPublishingChecks: true, testResults: '**/cpputest_*.xml'
         }
     }
+
+    stages {
+        stage('Build and Push Docker Image') 
+        {
+            steps {
+                script {
+                    def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
+
+                    withCredentials([usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
+                    {
+                        sh "docker build -t YuriyBoyko/jenkins-app:${dockerImageTag} HW_Docker_Boyko"
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        sh "docker push YuriyBoyko/jenkins-app:${dockerImageTag}"
+                    }
+                }
+            }  
     
-    
-    
-        }
+        }        
     }
+        
 }
