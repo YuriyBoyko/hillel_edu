@@ -14,7 +14,7 @@ pipeline {
                     def dockerImageTag = env.BRANCH_NAME.replaceAll("/", "-")
 
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
+                        sh "docker builds -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                         sh "docker push flyvisit/hillel:${dockerImageTag}"
                     }
