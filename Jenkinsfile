@@ -13,7 +13,7 @@ pipeline {
                 script {
                     def dockerImageTag = "${GIT_BRANCH}".replaceAll("^.+?/", "")
 
-                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword( usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker build -t YuriyBoyko/jenkins-app:${dockerImageTag} HW_Docker_Boyko"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                         sh "docker push YuriyBoyko/jenkins-app:${dockerImageTag}"
