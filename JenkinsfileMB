@@ -13,7 +13,7 @@ pipeline {
                 script {
                     def dockerImageTag = env.BRANCH_NAME.replaceAll("/", "-")
 
-                    withCredentials([usernamePassword(credentialsId: '', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker build -t flyvisit/hillel:${dockerImageTag} HW_Docker_Boyko"
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                         sh "docker push flyvisit/hillel:${dockerImageTag}"
@@ -48,7 +48,7 @@ def updateGitHubCommitStatus(String status) {
         -H 'Accept: application/vnd.github+json' \
         -H 'Authorization: Bearer ${GITHUB_ACCESS_TOKEN}' \
         -H 'X-GitHub-Api-Version: 2022-11-28' \
-        https://api.github.com/repos/YuriyBoyko/hillel_edu//statuses/${commitSha} \
+        https://api.github.com/repos/YuriyBoyko/hillel_edu/statuses/${commitSha} \
         -d '{
             "state": "${status}",
             "target_url": "${env.BUILD_URL}",
