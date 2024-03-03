@@ -1,7 +1,7 @@
 pipeline 
 {
     agent {
-        label 'great_node'
+        label 'worker-node'
     }
 
     triggers {
