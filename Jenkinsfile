@@ -20,6 +20,14 @@ pipeline {
                     }
                 }
             }
+    post {
+        always {
+            junit skipPublishingChecks: true, testResults: '**/cpputest_*.xml'
+        }
+    }
+    
+    
+    
         }
     }
 }
