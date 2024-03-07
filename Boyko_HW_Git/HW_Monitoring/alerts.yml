@@ -1,0 +1,11 @@
+groups:
+  - name: cpu
+    rules:
+      - alert: HighCpuUsage
+        expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[1m])) BY (name) * 100) > 87
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: High CPU usage detected in container {{ $labels.name }}.
+          summary: High CPU Usage

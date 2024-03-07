@@ -1,0 +1,17 @@
+route:
+  group_by: ['cpu']
+  group_wait: 15s
+  group_interval: 3m
+  repeat_interval: 45m
+  receiver: 'gmail-notifications'
+
+receivers:
+- name: 'gmail-notifications'
+  email_configs:
+  - to: divisio28@gmail.com
+    from: divisio28@gmail.com
+    smarthost: smtp.gmail.com:587
+    auth_username: divisio28@gmail.com
+    auth_identity: divisio28@gmail.com
+    auth_password: mypassword               #пароль выдуманный
+    send_resolved: true
